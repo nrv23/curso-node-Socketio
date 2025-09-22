@@ -1,0 +1,18 @@
+{
+  "name": "nativewebsockets",
+  "version": "1.0.0",
+  "main": "justServer.js",
+  "scripts": {
+    "dev": "nodemon justServer"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "ws": "^8.18.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

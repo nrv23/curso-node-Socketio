@@ -1,0 +1,11 @@
+<script>
+
+    let ws = new WebSocket("ws://localhost:3000");
+    
+    ws.onopen = () => {
+        console.log("Conectado al servidor");
+        ws.send("Hola desde el cliente");
+    }
+
+    ws.onmessage = messsage => console.log("Mensaje del servidor recibido: ", messsage.data);
+</script>
