@@ -1,0 +1,16 @@
+<script src="/socket.io/socket.io.js"></script> <!-- el plugin esta instalado en el servidor donde renderiza el html -->
+
+<script>
+
+    const socket = io("http://localhost:3000"); //conectar al servidor socketio
+    socket.on("connect", () => console.log("Conexion al servidor establecida : "+socket.id )); //escuchar el evento connect
+    socket.on("serverMessage", data => { // escuchar el evento que viene del servidor
+        console.log({data});
+        document.body.innerHTML += `<p>Mensaje del servidor: ${data.msg} (id: ${data.id})</p>`;
+    });
+
+    socket.emit("messageFromClient", {msg: "Hola desde el cliente", id: socket.id}); //enviar mensaje al servidor
+
+</script>
+
+<h1>Express server waiting for sockets edit</h1>

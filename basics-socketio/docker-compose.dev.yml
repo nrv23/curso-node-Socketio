@@ -1,0 +1,20 @@
+services:
+  socketio-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: socketio-dev-container
+    ports:
+      - "3000:3000"
+    volumes:
+      # Bind volume - conecta tu carpeta local con el contenedor
+      - .:/app
+      # Volume para node_modules (evita conflictos entre Windows y Linux)
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - CHOKIDAR_INTERVAL=1000
+    restart: unless-stopped
+    tty: true
+    stdin_open: true

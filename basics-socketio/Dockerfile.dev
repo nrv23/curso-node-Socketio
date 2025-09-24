@@ -1,0 +1,33 @@
+# Dockerfile para desarrollo con hot reload
+FROM node:18-alpine
+
+# Metadatos
+LABEL maintainer="socketio-course"
+LABEL version="1.0-dev"
+LABEL description="Entorno de desarrollo Socket.io con hot reload"
+
+# Crear directorio de la aplicación
+WORKDIR /app
+
+# Instalar nodemon globalmente para hot reload
+RUN npm install -g nodemon
+
+# Copiar package.json para instalar dependencias
+COPY package*.json ./
+
+# Instalar dependencias (incluyendo nodemon como dev dependency)
+RUN npm install
+
+# Cambiar propietario de archivos para usuario no-root
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S socketio -u 1001 && \
+    chown -R socketio:nodejs /app
+
+# Cambiar a usuario no-root
+USER socketio
+
+# Exponer puerto
+EXPOSE 3000
+
+# Comando para development con nodemon y configuración para funcionar con bind volumes
+CMD ["npm", "run", "dev"]
