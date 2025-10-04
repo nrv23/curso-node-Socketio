@@ -1,12 +1,30 @@
 {
-  "name": "basic.chat",
+  "name": "socketio-course-safe",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "Curso Socket.io con versiones específicas seguras",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "docker:dev": "powershell -ExecutionPolicy Bypass -File ./dev.ps1",
+    "docker:stop": "powershell -ExecutionPolicy Bypass -File ./stop-dev.ps1",
+    "docker:rebuild": "powershell -ExecutionPolicy Bypass -File ./quick-rebuild.ps1"
   },
-  "keywords": [],
+  "keywords": [
+    "socketio",
+    "realtime",
+    "course"
+  ],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "dependencies": {
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "nodemon": "3.0.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
 }

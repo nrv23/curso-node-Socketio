@@ -1,0 +1,72 @@
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    .container{
+        margin-top: 30px;
+    }
+    input{
+        height: 35px;
+        width: 100%;
+    }
+    #messages{
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+    #messages li{
+        padding: 5px 10px;
+    }
+    #message li:nth-child(odd){
+        background: #aaa;
+    }
+</style>
+
+<div class="container text-center">
+    <form class="row" id="message-form">
+        <div class="col-6">
+            <input id="user-message" type="text" placeholder="Enter your message" />
+        </div>
+        <div class="col-2">
+            <input class="btn btn-primary" type="submit" value="Send!" />
+        </div>
+    </form>
+
+    <ul id="messages">
+        <!-- THIS WILL BE POPULATED BY JAVASCRIPT! -->
+    </ul>
+
+</div>
+
+<script src="/socket.io/socket.io.js"></script> <!-- el plugin esta instalado en el servidor donde renderiza el html -->
+
+<script>
+
+    const socket = io("http://localhost:3005"); //conectar al servidor socketio
+    socket.on("connect", () => console.log("Conexion al servidor establecida : " + socket.id)); //escuchar el evento connect
+   
+    socket.emit("messageFromClient", { msg: "Hola desde el cliente", id: socket.id }); //enviar mensaje al servidor
+   
+    socket.on("serverMessage", data => { // escuchar el evento que viene del servidor
+        const messagesList = document.querySelector("#messages");
+        messagesList.innerHTML += `<li><strong> ${data.msg}</li>`;
+    });
+
+    socket.on("reconnect", data => {
+        console.log("Reconectado al servidor", data);
+        document.body.innerHTML += `<p>Reconectado al servidor</p>`;
+    });
+
+
+    document.querySelector("#message-form").addEventListener("submit", event => {
+        event.preventDefault();
+        const messageInput = document.querySelector("#user-message");
+        const message = messageInput?.value.trim();
+        if(!message) return;  
+
+        socket.emit("messageFromClient", { msg: message, id: socket.id });
+        messageInput.value = "";
+    });
+
+</script>
+
